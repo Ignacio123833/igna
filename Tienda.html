@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="imagen/Logo.jpg" sizes="16x16" type="imagen/jpg">
+    <title>ARTESANIAS YÓLLOTL</title>
+    <link rel="stylesheet" href="CSS/estilos.css">
+    <style>
+        .carrito {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .carrito h3 {
+            margin: 0 0 10px;
+        }
+        .carrito ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .carrito li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .carrito button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="h1Header">ARTESANIAS YÓLLOTL</h1>
+        <img src="imagen/L1.png" class="imgLogo">
+    </header>
+    <nav>
+        <div class="div1">
+            <ul class="listasCatalogo">
+                <a href="Tienda.html" class="EnlacesNav"><li class="listasIndependientes">Catálogo🛒</li></a>
+            </ul>
+            <ul class="listaDeNav">
+                <a href="index.html" class="EnlacesNav"><li class="listasIndependientes">Inicio</li></a>
+                <a href="Artesanias_importadas_de_mexico.html" class="EnlacesNav"><li class="listasIndependientes">Artesanías de México</li></a>
+                <a href="Metodos_de_pago.html" class="EnlacesNav"><li class="listasIndependientes">Métodos de pago</li></a>
+                <a href="Registro_de_Nuevos_clientes.html" class="EnlacesNav"><li class="listasIndependientes">Registro de clientes</li></a>
+                <a href="Sobre_nosotros.html" class="EnlacesNav"><li class="listasIndependientes">Sobre nosotros</li></a>
+            </ul>
+        </div>
+    </nav>
+    <section class="seccionMargenes" id="centrado"> 
+        <div class="div2">
+            <div class="div5"><h2>Producto</h2></div>
+            <div class="div5"><h2>Imagen</h2></div>
+            <div class="div5"><h2>$Precio$</h2></div>
+        </div>
+        <div class="div2">
+            <div class="div5">
+                <p class="parrafosMercado">Camino de mesa</p>
+            </div>
+            <div class="div5">
+                <img src="imagen/Camino de mesa.jpg" style="width: 50%; height: 100%;">
+            </div>
+            <div class="div5">
+                <p class="parrafosMercado">$1000</p>
+                <button onclick="agregarAlCarrito('Camino de mesa', 1000)">Agregar al carrito</button>
+            </div>
+        </div>
+        <div class="div2">
+            <div class="div5">
+                <p class="parrafosMercado">Bolsa artesanal</p>
+            </div>
+            <div class="div5">
+                <img src="imagen/bolsa.jpeg" style="width: 50%; height: 100%;">
+            </div>
+            <div class="div5">
+                <p class="parrafosMercado">$750</p>
+                <button onclick="agregarAlCarrito('Bolsa artesanal', 750)">Agregar al carrito</button>
+            </div>
+        </div>
+        <div class="div2">
+            <div class="div5">
+                <p class="parrafosMercado">Jarrón pintado a mano</p>
+            </div>
+            <div class="div5">
+                <img src="imagen/jarron.jpg" style="width: 50%; height: 100%;">
+            </div>
+            <div class="div5">
+                <p class="parrafosMercado">$1200</p>
+                <button onclick="agregarAlCarrito('Jarrón pintado a mano', 1200)">Agregar al carrito</button>
+            </div>
+        </div>
+        <div class="div2">
+            <div class="div5">
+                <p class="parrafosMercado">Collar de cuentas</p>
+            </div>
+            <div class="div5">
+                <img src="imagen/collar.jpeg" style="width: 50%; height: 100%;">
+            </div>
+            <div class="div5">
+                <p class="parrafosMercado">$300</p>
+                <button onclick="agregarAlCarrito('Collar de cuentas', 300)">Agregar al carrito</button>
+            </div>
+        </div>
+        <div class="div2">
+            <div class="div5">
+                <p class="parrafosMercado">Tapete de lana</p>
+            </div>
+            <div class="div5">
+                <img src="imagen/tapete.jpeg" style="width: 50%; height: 100%;">
+            </div>
+            <div class="div5">
+                <p class="parrafosMercado">$1500</p>
+                <button onclick="agregarAlCarrito('Tapete de lana', 1500)">Agregar al carrito</button>
+            </div>
+        </div>
+    </section>
+    <div class="carrito" id="carrito">
+        <h3>Carrito de Compras</h3>
+        <ul id="lista-carrito"></ul>
+        <p><strong>Total:</strong> $<span id="total">0</span></p>
+        <button onclick="vaciarCarrito()">Vaciar Carrito</button>
+    </div>
+    <script>
+        const carrito = [];
+
+        function agregarAlCarrito(nombre, precio) {
+            carrito.push({ nombre, precio });
+            actualizarCarrito();
+        }
+
+        function actualizarCarrito() {
+            const listaCarrito = document.getElementById('lista-carrito');
+            const totalCarrito = document.getElementById('total');
+
+            listaCarrito.innerHTML = '';
+            let total = 0;
+
+            carrito.forEach((producto, index) => {
+                total += producto.precio;
+                const li = document.createElement('li');
+                li.innerHTML = `${producto.nombre} - $${producto.precio} <button onclick="eliminarDelCarrito(${index})">Eliminar</button>`;
+                listaCarrito.appendChild(li);
+            });
+
+            totalCarrito.textContent = total;
+        }
+
+        function eliminarDelCarrito(index) {
+            carrito.splice(index, 1);
+            actualizarCarrito();
+        }
+
+        function vaciarCarrito() {
+            carrito.length = 0;
+            actualizarCarrito();
+        }
+    </script>
+</body>
+</html>
